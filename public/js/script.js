@@ -11,11 +11,19 @@ async function signup(e)
 
         const response=await axios.post("http://localhost:3300/signup",userData);
 
-        console.log(response.data.output);
+        console.log(response.data.message);
 
-    }catch(err){
-        console.log('OUT SIDE ERROR');
-        console.log(err);
+    }catch(error){
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+          } 
+          else{
+            // The request was made but no response was received
+            console.log(error.message);
+          }
+            
     }
     
 }
@@ -31,11 +39,19 @@ async function login(e)
 
         const response=await axios.post("http://localhost:3300/login",userData);
 
-        console.log(response.data.output);
+        console.log(response.data.message);
 
-    }catch(err){
-        console.log('OUT SIDE ERROR');
-        console.log(err);
+    }catch(error){
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+          } 
+          else{
+            // The request was made but no response was received
+            console.log(error.message);
+          }
+            
     }
     
 }

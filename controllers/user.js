@@ -1,5 +1,8 @@
 const User=require('../models/user');
 const path=require('path');
+const bcrypt=require('bcrypt');
+
+const saltRounds=10;
 
 function isNotValid(str)
 {
@@ -24,14 +27,16 @@ exports.postSignup=async (req,res,next)=>{
     const password=req.body.password;
     if(isNotValid(email) || isNotValid(name) || isNotValid(password))
     {
-        return res.status(400).send({"output":"Invaid details"});
+        return res.status(400).json({message:"Invaid details"});
     }
-    const userData={
-        email:email,
-        name:name,
-        password:password
-    }
+    
     try{
+        const encryptedPassword=await bcrypt.hash(password,saltRounds);
+        const userData={
+            email:email,
+            name:name,
+            password:encryptedPassword
+        }
         const userWithEmail=await User.findAll({
             where:{
                 email:email
@@ -39,14 +44,15 @@ exports.postSignup=async (req,res,next)=>{
         });
         if(userWithEmail.length>0)
         {
-           return res.status(400).send({"output":"Email Already Exist"});
+           return res.status(400).json({message:"Email Already Exist"});
         }
         else{
             await User.create(userData);
-            return res.status(201).send({"output":"Account Created"});
+            return res.status(201).json({message:"Account Created"});
         }
     }catch(err){
         console.log(err);
+        return res.status(500).json(err);
     }
     
 
@@ -58,7 +64,7 @@ exports.postLogin=async (req,res,next)=>{
     const password=req.body.password;
     if(isNotValid(email) || isNotValid(password))
     {
-        return res.status(400).send({"output":"Invaid details"});
+        return res.status(400).json({message:"Invaid details"});
     }
     
     try{
@@ -69,30 +75,25 @@ exports.postLogin=async (req,res,next)=>{
 
         if(userWithEmail.length>0)
         {
-            const user=await User.findAll({
-                where:{
-                    email:email,
-                    password:password
-                }
-            });
-
-            if(user.length>0)
+            const passwordMatched=await bcrypt.compare(password,userWithEmail[0].password);
+            if(passwordMatched)
             {
-                return res.status(200).send({"output":"User Login Successfull"});
+                return res.status(200).json({message:"User Login Successfull"});
             }
             else
             {
-                return res.status(401).send({"output":"User Not Authorized"});
+                return res.status(401).json({message:"User Not Authorized"});
             }
         }
         else
         {
 
-            return res.status(404).send({"output":"User Not Found"});
+            return res.status(404).json({message:"User Not Found"});
 
         }
     }catch(err){
         console.log(err);
+        return res.status(500).json(err);
     }
     
 
