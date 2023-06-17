@@ -1,8 +1,10 @@
 const User=require('../models/user');
 const path=require('path');
 const bcrypt=require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const saltRounds=10;
+const privateKey="nushany3566327XNG427878CNYRYEWGGTHU3UY784T3";
 
 function isNotValid(str)
 {
@@ -47,7 +49,8 @@ exports.postSignup=async (req,res,next)=>{
            return res.status(400).json({message:"Email Already Exist"});
         }
         else{
-            await User.create(userData);
+            const newUser=await User.create(userData); 
+            //console.log(newUser);
             return res.status(201).json({message:"Account Created"});
         }
     }catch(err){
@@ -62,6 +65,7 @@ exports.postSignup=async (req,res,next)=>{
 exports.postLogin=async (req,res,next)=>{
     const email=req.body.email;
     const password=req.body.password;
+    //console.group(email,password);
     if(isNotValid(email) || isNotValid(password))
     {
         return res.status(400).json({message:"Invaid details"});
@@ -72,13 +76,16 @@ exports.postLogin=async (req,res,next)=>{
         const userWithEmail=await User.findAll({where:{
             email:email
         }});
+        //console.log(userWithEmail)
 
         if(userWithEmail.length>0)
         {
             const passwordMatched=await bcrypt.compare(password,userWithEmail[0].password);
             if(passwordMatched)
             {
-                return res.status(200).json({message:"User Login Successfull"});
+                const token = jwt.sign({ id: userWithEmail[0].id , email:userWithEmail[0].email }, privateKey);
+                //console.log(token);
+                return res.status(200).json({message:"User Login Successfull",token:token});
             }
             else
             {

@@ -5,13 +5,23 @@ const path=require('path');
 
 const sequelize=require('./utils/database');
 const User=require('./models/user')
-const userRoutes=require('./routes/user');
+const Expense=require('./models/expense')
+
+const adminRoutes=require('./routes/admin');
+const expenseRoutes=require('./routes/expense');
+
 const app=express();
-app.use(bodyParser.json({extended:true}));
+
 app.use(express.static(path.join(__dirname,'public')));
+app.use(bodyParser.json({extended:true}));
 
-app.use(userRoutes);
+app.use(adminRoutes);
+app.use(expenseRoutes);
 
+
+
+User.hasMany(Expense);
+Expense.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
 
 sequelize.sync({force:true})
 .then(()=>{

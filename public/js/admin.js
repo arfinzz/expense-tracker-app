@@ -12,6 +12,7 @@ async function signup(e)
         const response=await axios.post("http://localhost:3300/signup",userData);
 
         console.log(response.data.message);
+        window.location = "/login";
 
     }catch(error){
         if (error.response) {
@@ -39,7 +40,9 @@ async function login(e)
 
         const response=await axios.post("http://localhost:3300/login",userData);
 
-        console.log(response.data.message);
+        console.log(response.data);
+        localStorage.setItem("token",response.data.token);
+        window.location = "/expense";
 
     }catch(error){
         if (error.response) {
@@ -55,3 +58,5 @@ async function login(e)
     }
     
 }
+
+
