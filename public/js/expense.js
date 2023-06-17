@@ -12,8 +12,17 @@ async function getExpense(){
         const token=localStorage.getItem('token');
         //console.log("this is local storaqe token",token);
         const response=await axios.get("http://localhost:3300/expense/getExpense",{headers:{"Authorization":token}});
-        return response.data;
-    //console.log(response);
+        console.log(response);
+        if(response.data.ispremium)
+        {
+            document.querySelector('.premium').style.display='block';
+        }
+        else
+        {
+            document.querySelector('.buy-premium').style.display='block';
+        }
+        return response.data.expense;
+    
     }catch(err)
     {
         console.log(err);

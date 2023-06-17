@@ -39,7 +39,8 @@ exports.getExpense=async (req,res,next)=>{
     try{
         const exp=await req.user.getExpenses();
         //console.log(exp);
-        return res.status(200).json(exp);
+        const ispremium=req.user.ispremium==true;
+        return res.status(200).json({expense:exp,ispremium:ispremium});
     }
     catch(err)
     {

@@ -3786,3 +3786,4 @@ node_modules/jws/lib/data-stream.js
 node_modules/jws/lib/sign-stream.js
 node_modules/jws/lib/tostring.js
 node_modules/jws/lib/verify-stream.js
+.env

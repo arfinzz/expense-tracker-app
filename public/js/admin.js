@@ -12,7 +12,7 @@ async function signup(e)
         const response=await axios.post("http://localhost:3300/signup",userData);
 
         console.log(response.data.message);
-        window.location = "/login";
+        window.location = "/";
 
     }catch(error){
         if (error.response) {
