@@ -12,8 +12,8 @@ exports.getLeaderboadPage=(req,res,next)=>{
 
 exports.getLeaderboard=async (req,res,next)=>{
     try{
-        const [results, metadata] = await sequelize.query("SELECT * FROM expenses INNER JOIN users ON expenses.userId = users.id ORDER BY expenseAmount DESC");
-        console.log(results);
+        const [results, metadata] = await sequelize.query("SELECT totalExpense AS expense, name FROM users ORDER BY expense DESC;");
+        //console.log(results);
         return res.status(200).json({"result":results});
 
     }

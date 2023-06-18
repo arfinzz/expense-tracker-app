@@ -35,7 +35,7 @@ User.hasMany(Order);
 Order.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
 
 //{force:true}
-sequelize.sync({force:true})
+sequelize.sync()
 .then(()=>{
     console.log('Listening at port 3300');
     app.listen(3300);

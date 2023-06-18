@@ -43,9 +43,7 @@ async function displayLeaderboard()
     for (let i = 0; i < obj.length; i++) {
             text += `<li class="list-group-item"> 
             <div class="row align-items-center">
-            <div class="col">Expense Amount : ${obj[i].expenseAmount}</div>
-            <div class="col">Description : ${obj[i].description}</div>
-            <div class="col">Category : ${obj[i].category}</div>
+            <div class="col">${i+1}).  Total Expense : ${obj[i].expense}</div>
             <div class="col">User : ${obj[i].name}</div>
             
         </li>`;

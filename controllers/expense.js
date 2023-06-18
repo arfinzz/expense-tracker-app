@@ -26,6 +26,9 @@ exports.addExpense=async (req,res,next)=>{
     
     try{
        await req.user.createExpense({expenseAmount:expenseAmount,description:description,category:category});
+       const oldExpense=req.user.totalExpense;
+       const newExpense=oldExpense + + expenseAmount;
+       await req.user.update({totalExpense:newExpense});
        return res.status(200).json({message:"Expense created successfully"});
         
     }catch(err){
@@ -55,8 +58,10 @@ exports.deleteExpense=async (req,res,next)=>{
     try{
         const id=req.params.id;
         const expenseToDelete=await req.user.getExpenses({where:{id:id}});
-        //console.log(expenseToDelete[0]);
+        const expenseAmountToDelete=expenseToDelete[0].expenseAmount;
+        const newExpense=req.user.totalExpense - expenseAmountToDelete;
         await expenseToDelete[0].destroy();
+        await req.user.update({totalExpense:newExpense}); 
         return res.status(200).json({message:"Expense deleted successfully"});
     }catch(err)
     {
