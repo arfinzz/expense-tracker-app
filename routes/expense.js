@@ -4,11 +4,11 @@ const expenseController=require('../controllers/expense');
 const auth=require('../middleware/auth');
 const router=express.Router();
 
-router.get('/expense',expenseController.displayExpense);
-router.get('/expense/getExpense',auth.authenticate,expenseController.getExpense);
+router.get('/expense',expenseController.displayUserHome);
+router.get('/expense/getExpense',auth.user,expenseController.getExpense);
 
-router.post('/expense/postExpense',auth.authenticate,expenseController.addExpense);
-router.get('/expense/deleteExpense/:id',auth.authenticate,expenseController.deleteExpense);
+router.post('/expense/postExpense',auth.user,expenseController.addExpense);
+router.get('/expense/deleteExpense/:id',auth.user,expenseController.deleteExpense);
 
 
 module.exports=router;

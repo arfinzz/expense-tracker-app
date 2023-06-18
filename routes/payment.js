@@ -5,9 +5,9 @@ const auth=require('../middleware/auth');
 
 const router=express.Router();
 
-router.get('/payment',auth.authenticate,paymentController.payment);
-router.post('/payment',auth.authenticate,paymentController.updateUser);
-router.post('/payment/failed',auth.authenticate,paymentController.failedPayment);
+router.get('/payment/buypremium',auth.user,paymentController.buyPremium);
+router.post('/payment/buypremiumsuccess',auth.user,paymentController.premiumSuccess);
+router.post('/payment/buypremiumfailed',auth.user,paymentController.premiumFailed);
 
 
 module.exports=router;

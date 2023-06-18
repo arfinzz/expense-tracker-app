@@ -15,7 +15,7 @@ function isNotValid(str)
 
 exports.getLogin=(req,res,next)=>{
     //console.log("inside get")
-   res.sendFile(path.join(__dirname,'../','views','login.html'));
+   res.sendFile(path.join(__dirname,'../','views','home.html'));
 }
 
 exports.getSignup=(req,res,next)=>{

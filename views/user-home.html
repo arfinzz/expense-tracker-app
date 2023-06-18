@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Expense Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
     <div class="d-flex justify-content-end" style="max-width: 90%;">
-      <button class="btn btn-primary buy-premium" style="display: none;">Buy Premium</button>
-      <button class="btn btn-primary premium" style="display: none;">Premium User</button>
+      <button class="btn btn-warning buy-premium" style="display: none;">Buy Premium</button>
+      <button class="btn btn-success premium" style="display: none;">Premium User</button>
       <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     </div>
 
@@ -33,6 +33,8 @@
             </div>
             <button type="submit" class="btn btn-primary">Add Expense</button>
           </form>
+
+          <a href="/premium/leaderboard"><button class="btn btn-primary leaderboard" style="display: none;">Leaderboard</button></a>
           
     </div>
     <div class="container mt-5" style="max-width: 1000px;">

@@ -9,9 +9,9 @@ function isNotValid(str)
     return true;
 }
 
-exports.displayExpense=(req,res,next)=>{
+exports.displayUserHome=(req,res,next)=>{
     //console.log("inside get")
-   res.sendFile(path.join(__dirname,'../','views','add-expense.html'));
+   res.sendFile(path.join(__dirname,'../','views','user-home.html'));
 }
 
 exports.addExpense=async (req,res,next)=>{

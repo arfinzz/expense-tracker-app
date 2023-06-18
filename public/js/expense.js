@@ -16,6 +16,7 @@ async function getExpense(){
         if(response.data.ispremium)
         {
             document.querySelector('.premium').style.display='block';
+            document.querySelector('.leaderboard').style.display='block';
         }
         else
         {

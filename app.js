@@ -13,6 +13,7 @@ const Order=require('./models/order');
 const adminRoutes=require('./routes/admin');
 const expenseRoutes=require('./routes/expense');
 const paymentRoutes=require('./routes/payment');
+const premiumRoutes=require('./routes/premium');
 
 const app=express();
 
@@ -22,6 +23,7 @@ app.use(bodyParser.json({extended:true}));
 app.use(adminRoutes);
 app.use(expenseRoutes);
 app.use(paymentRoutes);
+app.use(premiumRoutes);
 
 
 
@@ -32,6 +34,7 @@ Expense.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
 User.hasMany(Order);
 Order.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
 
+//{force:true}
 sequelize.sync({force:true})
 .then(()=>{
     console.log('Listening at port 3300');

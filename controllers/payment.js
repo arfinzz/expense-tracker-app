@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Razorpay=require('razorpay');
 
-exports.payment=async (req,res,next)=>{
+exports.buyPremium=async (req,res,next)=>{
     try{
         var rzp=new Razorpay({
             key_id:process.env.key_id,
@@ -34,7 +34,7 @@ exports.payment=async (req,res,next)=>{
     
 }
 
-exports.updateUser=async (req,res,next)=>{
+exports.premiumSuccess=async (req,res,next)=>{
     try{
         const payment_id=req.body.payment_id;
         const order_id=req.body.order_id
@@ -43,7 +43,7 @@ exports.updateUser=async (req,res,next)=>{
         const p1= orderToUpdate[0].update({paymentid:payment_id,status:"SUCCESS"});
         const p2= req.user.update({ispremium:true});
         await Promise.all([p1,p2]);
-        return res.status(200).json({"dws":"ewfwe"});
+        return res.status(200).json({"message":"Payment Successfull"});
     }
     catch(err)
     {
@@ -53,7 +53,7 @@ exports.updateUser=async (req,res,next)=>{
     
 }
 
-exports.failedPayment=async (req,res,next)=>{
+exports.premiumFailed=async (req,res,next)=>{
     try{
         const payment_id=req.body.payment_id;
         const order_id=req.body.order_id
@@ -62,7 +62,7 @@ exports.failedPayment=async (req,res,next)=>{
         const orderToUpdate=await req.user.getOrders({where:{orderid:order_id}});
         await orderToUpdate[0].update({paymentid:payment_id,status:"FAILED"});
         await orderToUpdate[0].save();
-        return res.status(200).json({"dws":"ewfwe"});
+        return res.status(200).json({"message":"Payment Failed"});
     }
     catch(err)
     {
