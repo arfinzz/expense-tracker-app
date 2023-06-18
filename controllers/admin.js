@@ -2,6 +2,7 @@ const User=require('../models/user');
 const path=require('path');
 const bcrypt=require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sequelize=require('../utils/database');
 
 const saltRounds=10;
 const privateKey="nushany3566327XNG427878CNYRYEWGGTHU3UY784T3";
@@ -27,6 +28,7 @@ exports.postSignup=async (req,res,next)=>{
     const email=req.body.email;
     const name=req.body.name;
     const password=req.body.password;
+    const t = await sequelize.transaction();
     if(isNotValid(email) || isNotValid(name) || isNotValid(password))
     {
         return res.status(400).json({message:"Invaid details"});
@@ -49,12 +51,14 @@ exports.postSignup=async (req,res,next)=>{
            return res.status(400).json({message:"Email Already Exist"});
         }
         else{
-            const newUser=await User.create(userData); 
+            const newUser=await User.create(userData,{ transaction: t }); 
             //console.log(newUser);
+            await t.commit();
             return res.status(201).json({message:"Account Created"});
         }
     }catch(err){
         console.log(err);
+        await t.rollback();
         return res.status(500).json(err);
     }
     
