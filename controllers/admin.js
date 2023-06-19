@@ -4,6 +4,7 @@ const bcrypt=require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sequelize=require('../utils/database');
 
+
 const saltRounds=10;
 const privateKey="nushany3566327XNG427878CNYRYEWGGTHU3UY784T3";
 
@@ -109,3 +110,5 @@ exports.postLogin=async (req,res,next)=>{
     
 
 }
+
+
