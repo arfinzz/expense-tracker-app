@@ -10,7 +10,8 @@ async function forgotPassword(e)
 
     }catch(err)
     {
-        console.log(err);
+        console.log(err.response.data);
+        document.querySelector('.error-box').innerHTML=err.response.data;
     }
     
 }

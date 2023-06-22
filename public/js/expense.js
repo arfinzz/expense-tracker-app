@@ -1,9 +1,9 @@
+
+
 document.addEventListener("DOMContentLoaded", () => {
-    
+
     displayExpense();
-    
-    
-  });
+    });
 
 
 async function getExpense(){
@@ -12,21 +12,29 @@ async function getExpense(){
         const token=localStorage.getItem('token');
         //console.log("this is local storaqe token",token);
         const response=await axios.get("http://localhost:3300/expense/getExpense",{headers:{"Authorization":token}});
-        console.log(response);
+        //console.log(response);
         if(response.data.ispremium)
         {
-            document.querySelector('.premium').style.display='block';
-            document.querySelector('.leaderboard').style.display='block';
+            premiumButtons=document.querySelectorAll('.premium-btns');
+            premiumButtons.forEach((premiumButton)=>{
+                
+                    premiumButton.style.display='block';
+            });
         }
         else
         {
-            document.querySelector('.buy-premium').style.display='block';
+            normalButtons=document.querySelectorAll('.normal-btns');
+            normalButtons.forEach((normalButton)=>{
+                
+                   normalButton.style.display='block';
+            });
         }
         return response.data.expense;
     
     }catch(err)
     {
         console.log(err);
+        return err;
     }
 
 }
@@ -62,7 +70,7 @@ async function displayExpense()
         </li>`;
         }
 
-    text+=`<div>Total : ${total}</div`
+    text+=`<div><h5>Total : ${total}</h5></div>`
 
     listParent.innerHTML = text;
 
@@ -127,4 +135,29 @@ async function addExpense(e)
             
     }
     
+}
+
+
+
+document.querySelector('.download-btn').addEventListener('click',(event)=>{
+    downloadExpense();
+})
+
+
+async function downloadExpense(){
+   
+    try{
+        const token=localStorage.getItem('token');
+        //console.log("this is local storaqe token",token);
+        const response=await axios.get("http://localhost:3300/expense/downloadExpense",{headers:{"Authorization":token}});
+        //console.log(response);
+        const expenseElement=document.querySelector('.expenses');
+        //console.log(expenseElement)
+        html2pdf().from(expenseElement).save();
+    
+    }catch(err)
+    {
+        console.log(err);
+    }
+
 }

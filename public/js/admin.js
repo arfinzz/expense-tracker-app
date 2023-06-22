@@ -19,6 +19,7 @@ async function signup(e)
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
             console.log(error.response.data);
+            document.querySelector('.error-box').innerHTML=error.response.data.message
           } 
           else{
             // The request was made but no response was received
@@ -49,6 +50,7 @@ async function login(e)
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
             console.log(error.response.data);
+            document.querySelector('.error-box').innerHTML=error.response.data.message
           } 
           else{
             // The request was made but no response was received

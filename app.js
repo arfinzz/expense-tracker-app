@@ -9,6 +9,7 @@ const User=require('./models/user');
 const Expense=require('./models/expense');
 const Order=require('./models/order');
 const Forgotpasswordrequest=require('./models/forgotpasswordrequest');
+const Expensedownload=require('./models/expensedownload');
 
 
 const adminRoutes=require('./routes/admin');
@@ -37,6 +38,10 @@ Order.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
 
 User.hasMany(Forgotpasswordrequest);
 Forgotpasswordrequest.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
+
+User.hasMany(Expensedownload);
+Expensedownload.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
+
 
 //{force:true}
 sequelize.sync()

@@ -1,6 +1,9 @@
 const User=require('../models/user');
 const path=require('path');
 const sequelize=require('../utils/database');
+const AWS=require('aws-sdk');
+require('dotenv').config();
+const axios=require('axios')
 
 function isNotValid(str)
 {
@@ -77,3 +80,106 @@ exports.deleteExpense=async (req,res,next)=>{
 }
 
 
+exports.downloadExpense=async (req,res,next)=>{
+    try{
+        const expenses=await req.user.getExpenses();
+        //console.log(exp);
+        const userId=req.user.id;
+        const stringifiedExpenses=JSON.stringify(expenses);
+        const filename=`Expenses${userId}/${new Date()}.txt`;
+
+        const awsreponse= await uploadToS3(stringifiedExpenses,filename);
+        await req.user.createExpensedownload({url:awsreponse.Location});
+        return res.status(200).json(awsreponse);
+
+
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json(err);
+    }
+    
+}
+
+
+async function uploadToS3(data,filename)
+{
+    const BUCKET_NAME='expensetrackerarfinzz';
+    const IAM_USER_KEY=process.env.IAM_USER_KEY;
+    const IAM_USER_SECRET=process.env.IAM_USER_SECRET;
+
+    let s3bucket=new AWS.S3({
+        accessKeyId:IAM_USER_KEY,
+        secretAccessKey:IAM_USER_SECRET,
+    })
+
+    
+    var params={
+            Bucket:BUCKET_NAME,
+            Key:filename,
+            Body:data,
+            ACL:'public-read'
+        }
+
+
+    return new Promise((res,rej)=>{
+
+        s3bucket.upload(params,(err,resp)=>{
+            if(err)
+            {
+                rej(err);
+            }
+            else
+            {
+                res(resp);
+            }
+        });
+    })
+}
+
+
+exports.downloadHistory=(req,res,next)=>{
+    //console.log("inside get")
+   res.sendFile(path.join(__dirname,'../','views','downloadhistory.html'));
+}
+
+
+exports.getDownloadHistory=async (req,res,next)=>{
+    try{
+        const exp=await req.user.getExpensedownloads();
+        //console.log(exp);
+        const ispremium=req.user.ispremium==true;
+        return res.status(200).json({history:exp,ispremium:ispremium});
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json(err);
+    }
+    
+}
+
+
+exports.downloadAgain=async (req,res,next)=>{
+    try{
+        const id=req.params.id;
+        const exp=await req.user.getExpensedownloads({where:{id:id}});
+        if(exp.length<1)
+        {
+            throw 'Something went wrong'
+        }
+        //console.log(exp);
+
+        const response=await axios.get(exp[0].url,{responseType: "text",});
+        const objresponse=JSON.parse(response.data);
+        return res.status(200).json(objresponse);
+        
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json(err);
+    }
+    
+}

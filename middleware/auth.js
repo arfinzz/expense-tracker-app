@@ -44,6 +44,7 @@ exports.premium=async (req,res,next)=>{
         if(loggedinUser.ispremium==true)
         {
             req.user=loggedinUser;
+            //console.log("authenticated")
         }
         else{
             throw "Please buy premium";
