@@ -10,6 +10,8 @@ exports.user=async (req,res,next)=>{
          //console.log(user);
         const loggedinUser=await User.findByPk(user.id);
         //console.log(JSON.stringify(loggedinUser));
+        if(!loggedinUser)
+        throw 'Error'
          req.user=loggedinUser;
         next();
 

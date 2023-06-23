@@ -45,10 +45,30 @@ exports.addExpense=async (req,res,next)=>{
 
 exports.getExpense=async (req,res,next)=>{
     try{
-        const exp=await req.user.getExpenses();
+        const pageNo=req.headers.pageno;
+        //console.log(req.headers)
+        const rowsPerPage=req.headers.rowsperpage;
+        //console.log(pageNo)
+        const limit=Number(rowsPerPage);
+        const totalExpenses=await req.user.countExpenses();
+        const totalPages=Math.ceil(totalExpenses/limit);
+        //console.log(total)
+        const offset=(pageNo-1)*limit;
+        const exp=await req.user.getExpenses({ offset: offset, limit: limit });
         //console.log(exp);
+        const hasPrevious=offset!=0;
+        const hasNext=offset+limit<totalExpenses;
+        const hasStart=pageNo==1 || pageNo==2;
+        const hasEnd=pageNo==totalPages || pageNo==totalPages-1;
         const ispremium=req.user.ispremium==true;
-        return res.status(200).json({expense:exp,ispremium:ispremium});
+        const pageData={
+            hasNext:hasNext,
+            hasPrevious:hasPrevious,
+            hasStart:hasStart,
+            hasEnd:hasEnd,
+            totalPages:totalPages
+        }
+        return res.status(200).json({expense:exp,ispremium:ispremium,pageData:pageData});
     }
     catch(err)
     {
@@ -90,7 +110,7 @@ exports.downloadExpense=async (req,res,next)=>{
 
         const awsreponse= await uploadToS3(stringifiedExpenses,filename);
         await req.user.createExpensedownload({url:awsreponse.Location});
-        return res.status(200).json(awsreponse);
+        return res.status(200).json(expenses);
 
 
     }

@@ -39,7 +39,49 @@
           
           
     </div>
-    <div class="container mt-5 expenses" style="max-width: 1000px;">
+
+
+
+   
+
+
+    <nav class="container pagination-block mt-5" style="max-width: 1000px; margin-bottom: 5px;" style="margin-bottom: 0px;">
+      <ul class="pagination justify-content-center" style="margin-bottom: 0px;">
+       
+        <li class="page-item always-visible">
+          <a class="page-link" style="text-decoration: none; color: black;">
+            Rows per page :
+          <select id="sell" onchange="doSomething(event);" onfocus="this.selectedIndex = -1;">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+        </a>
+        </li>
+
+        <li class="page-item prev has-previous" style="display: none;">
+          <a class="page-link">
+            <span>&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item pno has-start first-page" style="display: none;"><a class="page-link"></a></li>
+        <li class="page-item has-start" style="display: none;"><a class="page-link">...</a></li>
+        <li class="page-item pno has-previous previous-page" style="display: none;"><a class="page-link" ></a></li>
+        <li class="page-item pno active current-page" style="display: none;"><a class="page-link" ></a></li>
+        <li class="page-item pno has-next next-page" style="display: none;"><a class="page-link" ></a></li>
+        <li class="page-item has-end" style="display: none;"><a class="page-link">...</a></li>
+        <li class="page-item pno has-end last-page" style="display: none;"><a class="page-link"></a></li>
+        <li class="page-item nxt has-next" style="display: none;">
+          <a class="page-link">
+            <span >&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+
+    <div class="container expenses" style="max-width: 1000px;">
         <ul class="list-group">
             <li class="list-group-item">An item</li>
             <li class="list-group-item">A second item</li>

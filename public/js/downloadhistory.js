@@ -108,10 +108,6 @@ async function download(id)
                 <div class="col">Expense Amount : ${obj[i].expenseAmount}</div>
                 <div class="col">Description : ${obj[i].description}</div>
                 <div class="col">Category : ${obj[i].category}</div>
-                <div class="col">
-                    <button type="button" class="btn btn-primary delete">Delete</button>
-                </div>
-                
             </li>`;
             }
 
@@ -121,7 +117,7 @@ async function download(id)
         const expenseElement=document.querySelector('.list-group');
         //console.log(expenseElement)
         await html2pdf().from(expenseElement).save();
-        window.location.reload();
+        displayDownloadHistory();
     }catch(err)
     {
         console.log(err);
