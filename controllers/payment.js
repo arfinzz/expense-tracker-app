@@ -7,8 +7,8 @@ exports.buyPremium=async (req,res,next)=>{
     const t = await sequelize.transaction();
     try{
         var rzp=new Razorpay({
-            key_id:process.env.key_id,
-            key_secret:process.env.key_secret
+            key_id:process.env.RZP_KEY_ID,
+            key_secret:process.env.RZP_KEY_SECRET,
         })
         const amount=2500;
 

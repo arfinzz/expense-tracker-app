@@ -1,3 +1,4 @@
+require('dotenv').config();
 const User=require('../models/user');
 const path=require('path');
 const bcrypt=require('bcrypt');
@@ -5,8 +6,8 @@ const jwt = require('jsonwebtoken');
 const sequelize=require('../utils/database');
 
 
-const saltRounds=10;
-const privateKey="nushany3566327XNG427878CNYRYEWGGTHU3UY784T3";
+const saltRounds=Number(process.env.SALT_ROUNDS);
+const privateKey=process.env.JWT_PRIVATE_KEY;
 
 function isNotValid(str)
 {

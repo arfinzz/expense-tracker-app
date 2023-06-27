@@ -1,5 +1,10 @@
+
+require('dotenv').config();
 const express=require('express');
+const helmet=require('helmet');
 const Sequelize=require('sequelize');
+const morgan=require('morgan');
+const fs=require('fs');
 
 const bodyParser=require('body-parser');
 const path=require('path');
@@ -21,6 +26,9 @@ const app=express();
 
 app.use(express.static(path.join(__dirname,'public')));
 app.use(bodyParser.json({extended:true}));
+
+const accessLogStream=fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'});
+app.use(morgan('combined',{stream:accessLogStream}));
 
 app.use(adminRoutes);
 app.use(expenseRoutes);
@@ -44,10 +52,10 @@ Expensedownload.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
 
 
 //{force:true}
-sequelize.sync()
+sequelize.sync({force:true})
 .then(()=>{
     console.log('Listening at port 3300');
-    app.listen(3300);
+    app.listen(process.env.PORT || 3300);
 })
 .catch(err=>{
     console.log(err);

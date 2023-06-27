@@ -1,6 +1,7 @@
+require('dotenv').config();
 const User=require('../models/user');
 const jwt = require('jsonwebtoken');
-const privateKey="nushany3566327XNG427878CNYRYEWGGTHU3UY784T3";
+const privateKey=process.env.JWT_PRIVATE_KEY;
 
 exports.user=async (req,res,next)=>{
     try{

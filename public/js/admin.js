@@ -32,8 +32,9 @@ async function signup(e)
 
 async function login(e)
 {
+    e.preventDefault();
     try{
-        e.preventDefault();
+        
         const userData={
             email:e.target.email.value,
             password:e.target.password.value

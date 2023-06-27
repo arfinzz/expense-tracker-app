@@ -6,7 +6,7 @@ const User=require('../models/user');
 const Forgotpasswordrequest=require('../models/forgotpasswordrequest');
 const sequelize=require('../utils/database');
 const bcrypt=require('bcrypt');
-const saltRounds=10;
+const saltRounds=Number(process.env.SALT_ROUNDS);
 
 
 exports.getForgotPasswordPage=(req,res,next)=>{
@@ -22,7 +22,7 @@ exports.postForgotPassword=async (req,res,next)=>{
 
         console.log(req.body.email)
         const email=req.body.email;
-        const api_key=process.env.api_key;
+        const api_key=process.env.SIB_API_KEY;
         SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey = api_key;
         const tranEmailApi=new SibApiV3Sdk.TransactionalEmailsApi();
         
@@ -107,6 +107,7 @@ exports.postResetPassword=async (req,res,next)=>{
 
         const uid=req.params.uid;
         const password=req.body.password;
+        //console.log(password);
         
 
         const fpreq=await Forgotpasswordrequest.findAll({where:{id:uid}});
