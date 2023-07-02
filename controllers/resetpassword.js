@@ -40,7 +40,7 @@ exports.postForgotPassword=async (req,res,next)=>{
         {
             throw "User Not Registered"
         }
-        const link='http://localhost:3300/resetpassword/'+uid;
+        const link=`http://${process.env.LOCAL_HOST}/resetpassword/`+uid;
 
 
         const sender={

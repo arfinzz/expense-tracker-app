@@ -1,3 +1,4 @@
+let host=location.host;
 document.addEventListener("DOMContentLoaded", () => {
 
     displayDownloadHistory();
@@ -8,7 +9,7 @@ async function getDownloadHistory(){
     try{
         const token=localStorage.getItem('token');
         //console.log("this is local storaqe token",token);
-        const response=await axios.get("http://localhost:3300/expense/getDownloadHistory",{headers:{"Authorization":token}});
+        const response=await axios.get(`http://${host}/expense/getDownloadHistory`,{headers:{"Authorization":token}});
         //console.log(response);
         if(response.data.ispremium)
         {
@@ -88,7 +89,7 @@ async function download(id)
     try{
         const token=localStorage.getItem('token');
         //console.log("this is local storaqe token",token);
-        const response=await axios.get(`http://localhost:3300/expense/downloadagain/${id}`,{headers:{"Authorization":token}});
+        const response=await axios.get(`http://${host}/expense/downloadagain/${id}`,{headers:{"Authorization":token}});
         //console.log(response);
         let listParent = document.querySelector('.list-group');
         let listChildren = document.querySelectorAll('.list-group-item');

@@ -1,4 +1,4 @@
-console.log('heko')
+let host=location.host;
 async function signup(e)
 {
     try{
@@ -9,7 +9,7 @@ async function signup(e)
             password:e.target.password.value
         };
 
-        const response=await axios.post("http://localhost:3300/signup",userData);
+        const response=await axios.post(`http://${host}/signup`,userData);
 
         console.log(response.data.message);
         window.location = "/";
@@ -40,7 +40,7 @@ async function login(e)
             password:e.target.password.value
         };
 
-        const response=await axios.post("http://localhost:3300/login",userData);
+        const response=await axios.post(`http://${host}/login`,userData);
 
         console.log(response.data);
         localStorage.setItem("token",response.data.token);

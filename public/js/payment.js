@@ -1,5 +1,5 @@
 //console.log("this is payment script")
-
+//let host=location.host;
 document.querySelector(".buy-premium").onclick=(e)=>{
     buyPremium(e);
 }
@@ -10,7 +10,7 @@ async function buyPremium(e){
     try{
         const token=localStorage.getItem('token');
         //console.log("this is local storaqe token",token);
-        const response=await axios.get("http://localhost:3300/payment/buypremium",{headers:{"Authorization":token}});
+        const response=await axios.get(`http://${host}/payment/buypremium`,{headers:{"Authorization":token}});
         console.log(response);
         let options={
             "key":response.data.key_id,
@@ -19,7 +19,7 @@ async function buyPremium(e){
             "handler": async function (response){
                 //console.log(response);
                 //console.log(options);
-                await axios.post("http://localhost:3300/payment/buypremiumsuccess",{
+                await axios.post(`http://${host}/payment/buypremiumsuccess`,{
                     order_id:options.order_id,
                     payment_id:response.razorpay_payment_id,
                 },{headers:{"Authorization":token}})
@@ -36,7 +36,7 @@ async function buyPremium(e){
         rzpl.on('payment.failed',async function(response){
             console.log(">>FAILED RESPONSE");
             console.log(response.error.metadata);
-            await axios.post("http://localhost:3300/payment/buypremiumfailed",{
+            await axios.post(`http://${host}/payment/buypremiumfailed`,{
                     order_id:response.error.metadata.order_id,
                     payment_id:response.error.metadata.payment_id,
                 },{headers:{"Authorization":token}});

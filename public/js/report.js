@@ -1,4 +1,4 @@
-
+let host=location.host;
 document.addEventListener("DOMContentLoaded", () => {
     displayReport();  
   });
@@ -9,7 +9,7 @@ async function getReport(){
     try{
         const token=localStorage.getItem('token');
         //console.log("this is local storaqe token",token);
-        const response=await axios.get("http://localhost:3300/premium/getreport",{headers:{"Authorization":token}});
+        const response=await axios.get(`http://${host}/premium/getreport`,{headers:{"Authorization":token}});
         
         //console.log(response.data.result);
         return response.data.result;

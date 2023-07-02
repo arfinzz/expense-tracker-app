@@ -1,3 +1,4 @@
+let host=location.host;
 document.addEventListener("DOMContentLoaded", () => {
     displayLeaderboard();  
   });
@@ -8,7 +9,7 @@ async function getLeaderboard(){
     try{
         const token=localStorage.getItem('token');
         //console.log("this is local storaqe token",token);
-        const response=await axios.get("http://localhost:3300/premium/getleaderboard",{headers:{"Authorization":token}});
+        const response=await axios.get(`http://${host}/premium/getleaderboard`,{headers:{"Authorization":token}});
         
         console.log(response);
         return response.data.result;

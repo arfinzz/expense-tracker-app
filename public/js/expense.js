@@ -1,5 +1,6 @@
 
 let currentPage=1;
+let host=location.host;
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,7 +20,7 @@ async function getExpense(pageNo,rowsPerPage){
     try{
         const token=localStorage.getItem('token');
         //console.log("this is local storaqe token",token);
-        const response=await axios.get("http://localhost:3300/expense/getExpense",{headers:{"Authorization":token,pageNo:pageNo,rowsPerPage:rowsPerPage}});
+        const response=await axios.get(`http://${host}/expense/getExpense`,{headers:{"Authorization":token,pageNo:pageNo,rowsPerPage:rowsPerPage}});
         console.log(response);
         const pageData=response.data.pageData;
         displayPagination(pageData);
@@ -120,7 +121,7 @@ async function deleteExpense(e){
             rowsPerPage=5;
         }
         //console.log(id)
-        await axios.get('http://localhost:3300/expense/deleteExpense/'+id,{headers:{"Authorization":token}});
+        await axios.get(`http://${host}/expense/deleteExpense/`+id,{headers:{"Authorization":token}});
         displayExpense(currentPage,rowsPerPage);
     }catch(err)
     {
@@ -146,7 +147,7 @@ async function addExpense(e)
             rowsPerPage=5;
         }
 
-        const response=await axios.post("http://localhost:3300/expense/postExpense", expenseData, {headers:{"Authorization":token}});
+        const response=await axios.post(`http://${host}/expense/postExpense`, expenseData, {headers:{"Authorization":token}});
 
         console.log(response.data.message);
         displayExpense(currentPage,rowsPerPage);
@@ -179,7 +180,7 @@ async function downloadExpense(){
     try{
         const token=localStorage.getItem('token');
         //console.log("this is local storaqe token",token);
-        const response=await axios.get("http://localhost:3300/expense/downloadExpense",{headers:{"Authorization":token}});
+        const response=await axios.get(`http://${host}/expense/downloadExpense`,{headers:{"Authorization":token}});
         console.log("sajiap",response);
         const obj=response.data;
         let listParent = document.querySelector('.list-group');

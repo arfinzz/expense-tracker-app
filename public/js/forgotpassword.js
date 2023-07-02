@@ -1,11 +1,11 @@
-
+let host=location.host;
 async function forgotPassword(e)
 {
     try{
 
         e.preventDefault();
         const email=e.target.email.value;
-        const result=await axios.post("http://localhost:3300/forgotpassword",{"email":email});
+        const result=await axios.post(`http://${host}/forgotpassword`,{"email":email});
         window.alert('Password rest link sent successfully');
 
     }catch(err)
